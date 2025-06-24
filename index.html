@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>Senim_VKO (Мобильная версия)</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -12,6 +12,13 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Отключение выделения текста */
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none;   /* Safari */
+            -khtml-user-select: none;    /* Konqueror HTML */
+            -moz-user-select: none;      /* Old Firefox */
+            -ms-user-select: none;       /* Internet Explorer/Edge */
+            user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
         }
 
         body {
@@ -55,15 +62,14 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
 
-            /* Flexbox для распределения элементов внутри шапки */
             display: flex;
-            justify-content: space-between; /* Разносит элементы по краям */
-            align-items: center; /* Выравнивает по центру вертикально */
+            justify-content: space-between;
+            align-items: center;
         }
 
         .header-content {
             text-align: center;
-            flex-grow: 1; /* Позволяет контенту занимать все доступное пространство по центру */
+            flex-grow: 1;
         }
 
         .page-header h1 {
@@ -83,39 +89,40 @@
             position: relative;
             font-size: 0.9em;
             font-weight: 700;
-            color: #666; /* Основной цвет текста */
+            color: #666;
             cursor: pointer;
-            padding-right: 15px; /* Место для стрелочки */
-            text-align: right; /* Выравнивание текста вправо */
-            white-space: nowrap; /* Не переносить текст */
+            padding-right: 15px;
+            text-align: right;
+            white-space: nowrap;
+            /* Для выравнивания по центру с другим контентом */
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Выравнивание текста и стрелки */
         }
 
         .language-selector::after {
             content: '\25BC'; /* Символ стрелочки вниз */
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
+            margin-left: 5px; /* Отступ от текста */
             font-size: 0.6em;
-            pointer-events: none; /* Чтобы не мешать кликам по тексту */
         }
 
         .language-list {
             display: none; /* Скрываем по умолчанию */
             position: absolute;
-            top: 100%; /* Появляется под родительским элементом */
-            right: 0; /* Выравниваем по правому краю */
+            top: 100%;
+            right: 0;
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             overflow: hidden;
-            z-index: 1001; /* Поверх всего */
-            min-width: 50px; /* Минимальная ширина для списка */
+            z-index: 1001;
+            min-width: 50px;
             text-align: center;
         }
 
-        .language-selector:hover .language-list {
-            display: block; /* Показываем список при наведении на .language-selector */
+        /* Класс для отображения списка по JS */
+        .language-list.show {
+            display: block;
         }
 
         .language-list span,
@@ -274,9 +281,9 @@
                 <h2>NEWS</h2>
             </div>
 
-            <div class="language-selector">
+            <div class="language-selector" id="languageSelector">
                 RU
-                <div class="language-list">
+                <div class="language-list" id="languageList">
                     <span class="disabled">RU</span>
                     <a href="kazakh_version.html">KZ</a> </div>
             </div>
@@ -289,7 +296,7 @@
                 <h3 class="card-subtitle">0 рублей</h3>
                 <p class="card-description">
                     БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ <br><br>
-                    Не бойтесь, если до конца не знаете, что сформулировать задачу – вам не нужен идеальный референс/дизайн презентации/полиграфии<br><br>
+                    Не бойтесь, если до конца не знаете, как сформулировать задачу – вам не нужен идеальный референс/дизайн презентации/полиграфии<br><br>
                     Я расскажу, как подготовить данные, дам список того, что поможет вам понять, какой конечный визуальный продукт Вы получите
                 </p>
             </div>
@@ -297,7 +304,7 @@
             <div class="card economy">
                 <div class="card-number">02</div>
                 <h2 class="card-title">ЭКОНОМИЯ СРЕДСТВ КЛИЕНТА</h2>
-                <h3 class="card-subtitle">Мое цель – эффективность, презентации/полиграфии, поэтому я не буду искусственно "раздувать" объем работы, сократив Ваши затраты. Как следствие, экономия бюджет проекта.</h3>
+                <h3 class="card-subtitle">Моя цель – эффективность презентаций/полиграфии, поэтому я не буду искусственно "раздувать" объем работы, сократив Ваши затраты. Как следствие, экономия бюджета проекта.</h3>
                 <p class="card-description">
                     *Текст, который должен быть здесь, неразборчив на изображении. Я оставлю этот абзац пустым, но вы можете заполнить его, если у вас есть нужный текст.*
                 </p>
@@ -340,5 +347,26 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelector = document.getElementById('languageSelector');
+            const languageList = document.getElementById('languageList');
+
+            // Обработчик клика по RU/переключателю
+            languageSelector.addEventListener('click', function(event) {
+                // Предотвращаем закрытие при клике внутри списка
+                event.stopPropagation();
+                languageList.classList.toggle('show');
+            });
+
+            // Закрытие списка при клике в любом другом месте страницы
+            document.addEventListener('click', function(event) {
+                if (!languageSelector.contains(event.target)) {
+                    languageList.classList.remove('show');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
