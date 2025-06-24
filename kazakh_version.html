@@ -2,8 +2,7 @@
 <html lang="kk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Senim_VKO (Мобильді нұсқасы)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"> <title>Senim_VKO (Мобильді нұсқасы)</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -12,6 +11,13 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Отключение выделения текста */
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none;   /* Safari */
+            -khtml-user-select: none;    /* Konqueror HTML */
+            -moz-user-select: none;      /* Old Firefox */
+            -ms-user-select: none;       /* Internet Explorer/Edge */
+            user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
         }
 
         body {
@@ -55,7 +61,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
 
-            /* Жоғарғы колонтитул ішіндегі элементтерді орналастыру үшін Flexbox */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -88,16 +93,16 @@
             padding-right: 15px;
             text-align: right;
             white-space: nowrap;
+            /* Для выравнивания по центру с другим контентом */
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Выравнивание текста и стрелки */
         }
 
         .language-selector::after {
             content: '\25BC'; /* Төмен көрсеткі символы */
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
+            margin-left: 5px; /* Отступ от текста */
             font-size: 0.6em;
-            pointer-events: none;
         }
 
         .language-list {
@@ -114,8 +119,9 @@
             text-align: center;
         }
 
-        .language-selector:hover .language-list {
-            display: block; /* Меңзерді апарғанда тізімді көрсету */
+        /* Класс для отображения списка по JS */
+        .language-list.show {
+            display: block;
         }
 
         .language-list span,
@@ -274,10 +280,8 @@
                 <h2>NEWS</h2>
             </div>
 
-            <div class="language-selector">
-                KZ
-                <div class="language-list">
-                    <span class="disabled">KZ</span>
+            <div class="language-selector" id="languageSelector"> KZ
+                <div class="language-list" id="languageList"> <span class="disabled">KZ</span>
                     <a href="index.html">RU</a> </div>
             </div>
         </header>
@@ -307,7 +311,7 @@
                 <div class="card-number">03</div>
                 <h2 class="card-title">ТӨЛЕМНІҢ АШЫҚТЫҒЫ</h2>
                 <p class="card-description">
-                    Жұмыс ақысын жеңілдетілген схема бойынша, шотты ресімдемей немесе қажет болған жағдайда, тапсырыс берушінің қалауы бойынша – ресми түрде, барлық актілерді ұсына отырып, полиграфиялық қызмет көрсету туралы келісімшартпен жүргізуге болады.<br><br>
+                    Оплату работ можно провести по упрощенной схеме, без оформления счета, или при необходимости, по желанию заказчика – официально, договор на оказание полиграфических услуг с предоставлением всех актов.<br><br>
                     Менің жұмыстарым аяқталғаннан кейін, мен чектерді, орындалған жұмыстардың актілерін және жобаның барлық бастапқы материалдарын ұсынамын.
                 </p>
             </div>
@@ -316,7 +320,7 @@
                 <div class="card-number">04</div>
                 <h2 class="card-title">КЛИЕНТТІ ҚОЛДАУ</h2>
                 <p class="card-description">
-                    Мен жобаның барлық мерзімі ішінде – басынан аяғына дейін, сіздің тарапыңыздан нақты икемді ұсыныстар беремін.<br><br>
+                    Мен дайынмын, жобаның барлық мерзімі ішінде – басынан аяғына дейін, сіздің тарапыңыздан нақты икемді ұсыныстар беремін.<br><br>
                     Ұсыныстар тізімі кең – типографияны таңдаудан немесе жасырын маркетингтік әдістерді енгізуден бастап, көпшілік алдында сөйлеуге арналған жабдықтың техникалық және эстетикалық сипаттамаларына дейін.
                 </p>
             </div>
@@ -340,5 +344,31 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelector = document.getElementById('languageSelector');
+            const languageList = document.getElementById('languageList');
+
+            // Обработчик клика по RU/переключателю
+            languageSelector.addEventListener('click', function(event) {
+                // Предотвращаем закрытие при клике внутри списка
+                event.stopPropagation();
+                languageList.classList.toggle('show');
+            });
+
+            // Закрытие списка при клике в любом другом месте страницы
+            document.addEventListener('click', function(event) {
+                if (!languageSelector.contains(event.target)) {
+                    languageList.classList.remove('show');
+                }
+            });
+
+            // Отключение эффекта наведения для стрелочки, если это нужно (опционально)
+            // languageSelector.querySelector('span').addEventListener('mouseover', function(event) {
+            //     event.preventDefault(); // или event.stopPropagation();
+            // });
+        });
+    </script>
 </body>
 </html>
