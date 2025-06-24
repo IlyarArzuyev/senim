@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="kz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"> <title>Senim_VKO (Мобильді нұсқасы)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Senim_VKO (Мобильді нұсқасы)</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Жалпы стильдер мен қалпына келтіру */
+        /* Общие стили и сброс */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             /* Отключение выделения текста */
-            -webkit-touch-callout: none; /* iOS Safari */
-            -webkit-user-select: none;   /* Safari */
-            -khtml-user-select: none;    /* Konqueror HTML */
-            -moz-user-select: none;      /* Old Firefox */
-            -ms-user-select: none;       /* Internet Explorer/Edge */
-            user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #f0f0f0;
+            /* Добавим легкий градиент на body для лучшей демонстрации backdrop-filter */
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
             color: #333;
             line-height: 1.6;
             overflow-x: hidden;
@@ -31,7 +33,7 @@
             min-height: 100vh;
         }
 
-        /* Барлық орталықтандырылған блоктар үшін максималды ен */
+        /* Общая максимальная ширина для всех центрированных блоков */
         :root {
             --mobile-max-width: 450px;
         }
@@ -40,15 +42,15 @@
             width: 100%;
             max-width: var(--mobile-max-width);
             margin: 0 auto;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: transparent; /* Сделаем контейнер прозрачным, чтобы фон body был виден */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
             position: relative;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
 
-        /* Бекітілген Жоғарғы колонтитул */
+        /* Зафиксированная Шапка */
         .page-header {
             position: fixed;
             top: 0;
@@ -56,10 +58,12 @@
             max-width: var(--mobile-max-width);
             left: 50%;
             transform: translateX(-50%);
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 1.0); /* Прозрачность увеличена на 20% (было 0.8) */
             padding: 3px 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
 
             display: flex;
             justify-content: space-between;
@@ -83,7 +87,7 @@
             color: #666;
         }
 
-        /* Тілді ауыстырғыш стильдері */
+        /* Стили для переключателя языка */
         .language-selector {
             position: relative;
             font-size: 0.9em;
@@ -93,33 +97,33 @@
             padding-right: 15px;
             text-align: right;
             white-space: nowrap;
-            /* Для выравнивания по центру с другим контентом */
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* Выравнивание текста и стрелки */
+            justify-content: flex-end;
         }
 
         .language-selector::after {
-            content: '\25BC'; /* Төмен көрсеткі символы */
-            margin-left: 5px; /* Отступ от текста */
+            content: '\25BC';
+            margin-left: 5px;
             font-size: 0.6em;
         }
 
         .language-list {
-            display: none; /* Әдепкі бойынша жасырылған */
+            display: none;
             position: absolute;
             top: 100%;
             right: 0;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 1.0); /* Прозрачность увеличена на 20% (было 0.9) */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             overflow: hidden;
             z-index: 1001;
             min-width: 50px;
             text-align: center;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
-        /* Класс для отображения списка по JS */
         .language-list.show {
             display: block;
         }
@@ -135,93 +139,101 @@
         }
 
         .language-list span.disabled {
-            color: #aaa; /* Белсенді емес элемент үшін сұр түс */
-            cursor: default; /* Әдепкі меңзер */
+            color: #aaa;
+            cursor: default;
         }
 
         .language-list a:hover {
-            background-color: #f0f0f0; /* Белсенді элементке меңзерді апарғанда фон түсі */
+            background-color: #f0f0f0;
         }
 
-        /* Негізгі тор үшін жиектер, жоғарғы колонтитулдың жаңа құрылымын ескере отырып */
+        /* Отступы для main-grid, учитывающие новую структуру шапки */
         .main-grid {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
             padding: 20px;
-            padding-top: calc(15px + 1.8em + 0.8em + 3px + 20px); /* Жоғарғы колонтитул биіктігі + жиек */
+            padding-top: calc(15px + 1.8em + 0.8em + 3px + 20px);
             padding-bottom: calc(15px + 1.2em + 20px);
             flex-grow: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Карталар үшін жалпы стильдер */
+        /* Общие стили для карточек */
         .card {
-            background-color: #2b0c4a;
-            color: #fff;
+            color: #333;
             padding: 25px;
-            border-radius: 15px;
+            border-radius: 20px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1),
+                        0 4px 8px rgba(0, 0, 0, 0.05);
             min-height: 250px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            z-index: 1;
+
+            /* Эффект матового стекла: минимальное размытие и увеличенная прозрачность */
+            backdrop-filter: blur(3px) saturate(120%);
+            -webkit-backdrop-filter: blur(3px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.4); /* Оставим рамку такой же */
+            background-color: rgba(255, 255, 255, 0.35); /* Прозрачность увеличена на 20% (было 0.15) */
+
+            /* Для объема: очень легкий внутренний градиент/тень, также с увеличенной прозрачностью */
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.35), rgba(240, 240, 240, 0.25)); /* Увеличены альфа-каналы */
         }
 
         .card-number {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            font-size: 4em;
-            font-weight: bold;
-            color: rgba(255, 255, 255, 0.1);
-            z-index: 1;
+            top: 10px;
+            right: 10px;
+            font-size: 8em;
+            font-weight: 700;
+            color: rgba(0, 0, 0, 0.03);
+            z-index: -1;
             line-height: 1;
+            user-select: none;
+            pointer-events: none;
+            opacity: 0.6;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.1);
         }
 
         .card-title {
-            font-size: 1.3em;
+            font-size: 1.4em;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             position: relative;
             z-index: 2;
             text-transform: uppercase;
+            color: #333;
         }
 
         .card-subtitle {
-            font-size: 0.9em;
-            color: #aaa;
-            margin-bottom: 15px;
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 20px;
             position: relative;
             z-index: 2;
         }
 
         .card-description {
-            font-size: 0.85em;
-            color: #ccc;
-            line-height: 1.4;
+            font-size: 0.9em;
+            color: #444;
+            line-height: 1.5;
             position: relative;
             z-index: 2;
             flex-grow: 1;
         }
 
-        /* Карталар фондарына арналған арнайы стильдер */
-        .card.consultation { background: linear-gradient(135deg, #4a0d78, #2b0c4a); }
-        .card.economy { background: linear-gradient(135deg, #780d4a, #2b0c4a); }
-        .card.support { background: linear-gradient(135deg, #0d4a78, #2b0c4a); }
-        .card.transparency { background: linear-gradient(135deg, #4a780d, #2b0c4a); }
-        .card.recommendations { background: linear-gradient(135deg, #784a0d, #2b0c4a); }
-
-        /* "ЖҰМЫС ЕРЕЖЕЛЕРІ" элементтері - мобильді нұсқа үшін жасырылған */
+        /* Элементы "ПРАВИЛА РАБОТЫ" - скрыты для мобильной версии */
         .rules-line,
         .rules-text {
             display: none;
         }
 
-        /* Бекітілген Аяқколонтитул */
+        /* Зафиксированный Подвал */
         .page-footer {
             position: fixed;
             bottom: 0;
@@ -245,13 +257,13 @@
             white-space: nowrap;
         }
 
-        /* Аяқколонтитулдағы SynAI сілтемесі үшін стильдер */
+        /* Стили для ссылки SynAI в футере */
         .footer-text a,
         .footer-text a:hover,
         .footer-text a:active,
         .footer-text a:visited {
             text-decoration: none;
-            color: #00BFFF; /* Ашық көк түс */
+            color: #f7a700;
         }
 
         .social-icons-wrapper {
@@ -277,59 +289,58 @@
             <div style="width: 50px;"></div> 
 
             <div class="header-content">
-                <h2>NEWS</h2>
+                <h2>ЖАҢАЛЫҚТАР</h2>
             </div>
 
-            <div class="language-selector" id="languageSelector"> KZ
-                <div class="language-list" id="languageList"> <span class="disabled">KZ</span>
-                    <a href="index.html">RU</a> </div>
+            <div class="language-selector" id="languageSelector">
+                KZ
+                <div class="language-list" id="languageList">
+                    <a href="index.html">RU</a>
+                    <span class="disabled">KZ</span>
+                </div>
             </div>
         </header>
 
         <main class="main-grid">
-            <div class="card consultation">
-                <div class="card-number">01</div>
-                <h2 class="card-title">КЛИЕНТКЕ КОНСУЛЬТАЦИЯ</h2>
-                <h3 class="card-subtitle">0 теңге</h3>
+            <div class="card">
+                <h2 class="card-number">01</h2>
+                <h2 class="card-title">Күлкі – суық тиюге қарсы дәрі</h2>
+                <h3 class="card-subtitle"></h3>
                 <p class="card-description">
-                    ТЕГІН КОНСУЛЬТАЦИЯ <br><br>
-                    Егер сіз тапсырманы қалай тұжырымдау керектігін білмесеңіз, қорықпаңыз – сізге тамаша референс/презентация/полиграфия дизайны қажет емес<br><br>
-                    Мен деректерді қалай дайындау керектігін айтып беремін, соңғы визуалды өнімді түсінуге көмектесетін тізім беремін
+                    Жапон ғалымдары күнделікті он минуттық күлкі ЖРВИ белгілерін айтарлықтай төмендететінін анықтады. Токиодағы бірнеше клиникада пациенттерді стендап-комиктермен емдейтін "күлкі терапиясы кабинеттері" ашылды. Алғашқы нәтижелер науқастардың 60%-ында температураның төмендегенін көрсетті. Жапония Денсаулық сақтау министрлігі күлкіні міндетті рәсімдер тізіміне енгізуді қарастыруда.
                 </p>
             </div>
 
-            <div class="card economy">
-                <div class="card-number">02</div>
-                <h2 class="card-title">КЛИЕНТ ҚАРАЖАТЫН ҮНЕМДЕУ</h2>
-                <h3 class="card-subtitle">Менің мақсатым – презентациялар/полиграфиялардың тиімділігі, сондықтан мен жұмыс көлемін жасанды түрде "ұлғайтпаймын", шығындарыңызды азайтамын. Нәтижесінде, жоба бюджеті үнемделеді.</h3>
+            <div class="card">
+                <h2 class="card-number">02</h2>
+                <h2 class="card-title">Кофе – тұмауға қарсы вакцина</h2>
+                <h3 class="card-subtitle"></h3>
                 <p class="card-description">
-                    *Бұл жерде болуы тиіс мәтін суретте оқылмайды. Мен бұл абзацты бос қалдырамын, бірақ егер сізде қажетті мәтін болса, оны толтыра аласыз.*
+                    Миландық ғалымдар тобы күніне үш кесе қою эспрессо иммундық жүйені маусымдық екпеден де күштірек белсендіреді деп мәлімдеді. Эксперимент кофейняда еріктілерге жүргізілді. Итальяндықтар қазірдің өзінде жаппай "иммуноэспрессоға" көшуде. Дүниежүзілік денсаулық сақтау ұйымы бұл жаңалыққа әзірге түсінік берген жоқ.
                 </p>
             </div>
 
-            <div class="card transparency">
-                <div class="card-number">03</div>
-                <h2 class="card-title">ТӨЛЕМНІҢ АШЫҚТЫҒЫ</h2>
+            <div class="card">
+                <h2 class="card-number">03</h2>
+                <h2 class="card-title">Маңдайдағы қияр</h2>
                 <p class="card-description">
-                    Оплату работ можно провести по упрощенной схеме, без оформления счета, или при необходимости, по желанию заказчика – официально, договор на оказание полиграфических услуг с предоставлением всех актов.<br><br>
-                    Менің жұмыстарым аяқталғаннан кейін, мен чектерді, орындалған жұмыстардың актілерін және жобаның барлық бастапқы материалдарын ұсынамын.
+                    Британдық натуропаттардың ерекше зерттеуі көрсеткендей: ұйықтар алдында маңдайға жас қияр қойсаңыз, орташа есеппен 5-7 минутта ұйықтап кетесіз. Бұл әсер "өсімдіктің далалық ылғалдылығы мен биоэнергетикасына" негізделген. Ресми медицинаның скептицизміне қарамастан, әдіс TikTok-та вирусты болып, жастар арасында танымал болуда.
                 </p>
             </div>
 
-            <div class="card support">
-                <div class="card-number">04</div>
-                <h2 class="card-title">КЛИЕНТТІ ҚОЛДАУ</h2>
+            <div class="card">
+                <h2 class="card-number">04</h2>
+                <h2 class="card-title">Бал қосылған қымыз</h2>
                 <p class="card-description">
-                    Мен дайынмын, жобаның барлық мерзімі ішінде – басынан аяғына дейін, сіздің тарапыңыздан нақты икемді ұсыныстар беремін.<br><br>
-                    Ұсыныстар тізімі кең – типографияны таңдаудан немесе жасырын маркетингтік әдістерді енгізуден бастап, көпшілік алдында сөйлеуге арналған жабдықтың техникалық және эстетикалық сипаттамаларына дейін.
+                    Алматы облысында емші Әбдіразақ Т. қымыз, бал және женьшень тамыры қоспасы асқазан жарасынан артритке дейінгі әртүрлі аурулардан 73 адамды емдегенін мәлімдеді. Пациенттер өздерін "20 жастағыдай" сезінетінін айтады. Қазақстан Денсаулық сақтау министрлігі "сиқырлы тұнбаның" клиникалық сынақтарын 2026 жылдан ерте бастамайтынын хабарлады.
                 </p>
             </div>
 
-            <div class="card recommendations">
-                <div class="card-number">05</div>
-                <h2 class="card-title">БАСҚА ДИЗАЙНЕРЛЕРДІҢ ҰСЫНЫСТАРЫ</h2>
+            <div class="card">
+                <h2 class="card-number">05</h2>
+                <h2 class="card-title">Шоколад жақсартады...</h2>
                 <p class="card-description">
-                    Егер мен басқа жобалармен айналысып жатсам немесе білімім көмектесе алмаса, онда мен өз біліміммен шектелмеймін және сенімді әріптестерді/достарды, студияларды ұсынамын, оларға көмек сұрап хабарласа аласыз.
+                    Гарвард зерттеушілері испан тілі сабақтары алдында қара шоколад жеген студенттермен эксперимент жүргізді. 30 грамм жегендер бақылау тобына қарағанда екі есе көп сөздерді есте сақтады. Ғалымдар флавоноидтар жад орталықтарын белсендіреді деп болжайды. АҚШ-тың оқу орындарында қазірдің өзінде емтихандар алдында "шоколад үзілістерін" енгізу талқылануда.
                 </p>
             </div>
         </main>
@@ -350,24 +361,16 @@
             const languageSelector = document.getElementById('languageSelector');
             const languageList = document.getElementById('languageList');
 
-            // Обработчик клика по RU/переключателю
             languageSelector.addEventListener('click', function(event) {
-                // Предотвращаем закрытие при клике внутри списка
                 event.stopPropagation();
                 languageList.classList.toggle('show');
             });
 
-            // Закрытие списка при клике в любом другом месте страницы
             document.addEventListener('click', function(event) {
                 if (!languageSelector.contains(event.target)) {
                     languageList.classList.remove('show');
                 }
             });
-
-            // Отключение эффекта наведения для стрелочки, если это нужно (опционально)
-            // languageSelector.querySelector('span').addEventListener('mouseover', function(event) {
-            //     event.preventDefault(); // или event.stopPropagation();
-            // });
         });
     </script>
 </body>
