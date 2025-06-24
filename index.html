@@ -52,9 +52,18 @@
             transform: translateX(-50%);
             background-color: #fff;
             padding: 3px 20px;
-            text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+
+            /* Flexbox для распределения элементов внутри шапки */
+            display: flex;
+            justify-content: space-between; /* Разносит элементы по краям */
+            align-items: center; /* Выравнивает по центру вертикально */
+        }
+
+        .header-content {
+            text-align: center;
+            flex-grow: 1; /* Позволяет контенту занимать все доступное пространство по центру */
         }
 
         .page-header h1 {
@@ -69,14 +78,73 @@
             color: #666;
         }
 
-        /* Основной контент с прокруткой */
+        /* Стили для переключателя языка */
+        .language-selector {
+            position: relative;
+            font-size: 0.9em;
+            font-weight: 700;
+            color: #666; /* Основной цвет текста */
+            cursor: pointer;
+            padding-right: 15px; /* Место для стрелочки */
+            text-align: right; /* Выравнивание текста вправо */
+            white-space: nowrap; /* Не переносить текст */
+        }
+
+        .language-selector::after {
+            content: '\25BC'; /* Символ стрелочки вниз */
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.6em;
+            pointer-events: none; /* Чтобы не мешать кликам по тексту */
+        }
+
+        .language-list {
+            display: none; /* Скрываем по умолчанию */
+            position: absolute;
+            top: 100%; /* Появляется под родительским элементом */
+            right: 0; /* Выравниваем по правому краю */
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            z-index: 1001; /* Поверх всего */
+            min-width: 50px; /* Минимальная ширина для списка */
+            text-align: center;
+        }
+
+        .language-selector:hover .language-list {
+            display: block; /* Показываем список при наведении на .language-selector */
+        }
+
+        .language-list span,
+        .language-list a {
+            display: block;
+            padding: 8px 10px;
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .language-list span.disabled {
+            color: #aaa; /* Серый цвет для неактивного элемента */
+            cursor: default; /* Курсор по умолчанию */
+        }
+
+        .language-list a:hover {
+            background-color: #f0f0f0; /* Цвет фона при наведении на активный элемент */
+        }
+
+        /* Отступы для main-grid, учитывающие новую структуру шапки */
         .main-grid {
             display: flex;
             flex-direction: column;
             gap: 20px;
             padding: 20px;
-            padding-top: calc(15px + 1.8em + 0.8em + 3px + 20px);
-            padding-bottom: calc(15px + 1.2em + 20px); /* Отступ снизу для футера: padding + высота текста/иконок */
+            padding-top: calc(15px + 1.8em + 0.8em + 3px + 20px); /* Высота шапки + padding */
+            padding-bottom: calc(15px + 1.2em + 20px);
             flex-grow: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
@@ -172,13 +240,12 @@
         }
 
         /* Стили для ссылки SynAI в футере */
-        .footer-text a, /* Обычное состояние */
-        .footer-text a:hover, /* При наведении */
-        .footer-text a:active, /* При нажатии/активации */
-        .footer-text a:visited { /* После посещения */
-            text-decoration: none; /* Убираем подчеркивание */
-            color: #00BFFF; /* Ярко-голубой цвет (Deep Sky Blue) */
-            /* Убрал transition, чтобы цвет не менялся плавно */
+        .footer-text a,
+        .footer-text a:hover,
+        .footer-text a:active,
+        .footer-text a:visited {
+            text-decoration: none;
+            color: #00BFFF; /* Ярко-голубой цвет */
         }
 
         .social-icons-wrapper {
@@ -201,7 +268,18 @@
 <body>
     <div class="container">
         <header class="page-header">
-            <h2>NEWS</h2>
+            <div style="width: 50px;"></div> 
+
+            <div class="header-content">
+                <h2>NEWS</h2>
+            </div>
+
+            <div class="language-selector">
+                RU
+                <div class="language-list">
+                    <span class="disabled">RU</span>
+                    <a href="kazakh_version.html">KZ</a> </div>
+            </div>
         </header>
 
         <main class="main-grid">
@@ -258,7 +336,7 @@
                 <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="social-icon" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-                <a href="#" class="social-icon" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="social-icon" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>&nbsp&nbsp
             </div>
         </footer>
     </div>
