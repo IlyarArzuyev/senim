@@ -19,7 +19,7 @@
             background-color: #f0f0f0;
             color: #333;
             line-height: 1.6;
-            overflow-x: hidden; /* Предотвращаем горизонтальный скролл */
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -27,13 +27,13 @@
 
         /* Общая максимальная ширина для всех центрированных блоков */
         :root {
-            --mobile-max-width: 450px; /* Определяем переменную для максимальной ширины */
+            --mobile-max-width: 450px;
         }
 
         .container {
             width: 100%;
-            max-width: var(--mobile-max-width); /* Используем переменную */
-            margin: 0 auto; /* Центрирует сам контейнер на фоне body */
+            max-width: var(--mobile-max-width);
+            margin: 0 auto;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
@@ -44,12 +44,12 @@
 
         /* Зафиксированная Шапка */
         .page-header {
-            position: fixed; /* Закрепляем шапку */
-            top: 0; /* Вверху страницы */
-            width: 100%; /* Занимает всю ширину окна */
-            max-width: var(--mobile-max-width); /* Ограничиваем ширину содержимого шапки */
-            left: 50%; /* Начинаем по центру */
-            transform: translateX(-50%); /* Смещаем влево на половину своей ширины */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: var(--mobile-max-width);
+            left: 50%;
+            transform: translateX(-50%);
             background-color: #fff;
             padding: 3px 20px;
             text-align: center;
@@ -75,16 +75,12 @@
             flex-direction: column;
             gap: 20px;
             padding: 20px;
-            /* Отступы, чтобы контент не перекрывался фиксированными элементами */
-            padding-top: calc(15px + 1.8em + 0.8em + 3px + 20px); /* Примерно высота шапки + padding */
-            padding-bottom: calc(15px + 1.8em + 20px); /* Примерно высота подвала + padding */
+            padding-top: calc(15px + 1.8em + 0.8em + 3px + 20px);
+            padding-bottom: calc(15px + 1.2em + 20px); /* Отступ снизу для футера: padding + высота текста/иконок */
             flex-grow: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
-        /* Уточнение: если содержимое main-grid небольшое, оно будет центрировано в оставшемся пространстве.
-           Если контента много, он будет прокручиваться. */
-
 
         /* Общие стили для карточек */
         .card {
@@ -153,27 +149,46 @@
 
         /* Зафиксированный Подвал */
         .page-footer {
-            position: fixed; /* Закрепляем подвал */
-            bottom: 0; /* Внизу страницы */
-            width: 100%; /* Занимает всю ширину окна */
-            max-width: var(--mobile-max-width); /* Ограничиваем ширину содержимого подвала */
-            left: 50%; /* Начинаем по центру */
-            transform: translateX(-50%); /* Смещаем влево на половину своей ширины */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: var(--mobile-max-width);
+            left: 50%;
+            transform: translateX(-50%);
             background-color: #2c2c2c;
             color: #fff;
             padding: 3px 20px;
-            text-align: center;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            gap: 20px;
+        }
+
+        .footer-text {
+            font-size: 0.9em;
+            color: #ccc;
+            white-space: nowrap;
+        }
+
+        /* Стили для ссылки SynAI в футере */
+        .footer-text a, /* Обычное состояние */
+        .footer-text a:hover, /* При наведении */
+        .footer-text a:active, /* При нажатии/активации */
+        .footer-text a:visited { /* После посещения */
+            text-decoration: none; /* Убираем подчеркивание */
+            color: #00BFFF; /* Ярко-голубой цвет (Deep Sky Blue) */
+            /* Убрал transition, чтобы цвет не менялся плавно */
+        }
+
+        .social-icons-wrapper {
+            display: flex;
+            gap: 15px;
         }
 
         .social-icon {
             color: #f7a700;
-            font-size: 1.8em;
+            font-size: 1.2em;
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -187,7 +202,6 @@
     <div class="container">
         <header class="page-header">
             <h2>NEWS</h2>
-            <p></p>
         </header>
 
         <main class="main-grid">
@@ -239,10 +253,13 @@
         </main>
 
         <footer class="page-footer">
-            <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-icon" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-            <a href="#" class="social-icon" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <span class="footer-text">Created by <a href="https://www.synai.com" target="_blank" rel="noopener noreferrer">SynAI</a></span>
+            <div class="social-icons-wrapper">
+                <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <a href="#" class="social-icon" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
         </footer>
     </div>
 </body>
