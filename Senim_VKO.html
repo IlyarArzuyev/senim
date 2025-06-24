@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senim_VKO (Мобильная версия)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Общие стили и сброс */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden; /* Предотвращаем горизонтальный скролл */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Общая максимальная ширина для всех центрированных блоков */
+        :root {
+            --mobile-max-width: 450px; /* Определяем переменную для максимальной ширины */
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--mobile-max-width); /* Используем переменную */
+            margin: 0 auto; /* Центрирует сам контейнер на фоне body */
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Зафиксированная Шапка */
+        .page-header {
+            position: fixed; /* Закрепляем шапку */
+            top: 0; /* Вверху страницы */
+            width: 100%; /* Занимает всю ширину окна */
+            max-width: var(--mobile-max-width); /* Ограничиваем ширину содержимого шапки */
+            left: 50%; /* Начинаем по центру */
+            transform: translateX(-50%); /* Смещаем влево на половину своей ширины */
+            background-color: #fff;
+            padding: 3px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .page-header h1 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+
+        .page-header p {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        /* Основной контент с прокруткой */
+        .main-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            /* Отступы, чтобы контент не перекрывался фиксированными элементами */
+            padding-top: calc(15px + 1.8em + 0.8em + 3px + 20px); /* Примерно высота шапки + padding */
+            padding-bottom: calc(15px + 1.8em + 20px); /* Примерно высота подвала + padding */
+            flex-grow: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        /* Уточнение: если содержимое main-grid небольшое, оно будет центрировано в оставшемся пространстве.
+           Если контента много, он будет прокручиваться. */
+
+
+        /* Общие стили для карточек */
+        .card {
+            background-color: #2b0c4a;
+            color: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 4em;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+            line-height: 1;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+        }
+
+        .card-subtitle {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-description {
+            font-size: 0.85em;
+            color: #ccc;
+            line-height: 1.4;
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+        }
+
+        /* Специфические стили для фона карточек */
+        .card.consultation { background: linear-gradient(135deg, #4a0d78, #2b0c4a); }
+        .card.economy { background: linear-gradient(135deg, #780d4a, #2b0c4a); }
+        .card.support { background: linear-gradient(135deg, #0d4a78, #2b0c4a); }
+        .card.transparency { background: linear-gradient(135deg, #4a780d, #2b0c4a); }
+        .card.recommendations { background: linear-gradient(135deg, #784a0d, #2b0c4a); }
+
+        /* Элементы "ПРАВИЛА РАБОТЫ" - скрыты для мобильной версии */
+        .rules-line,
+        .rules-text {
+            display: none;
+        }
+
+        /* Зафиксированный Подвал */
+        .page-footer {
+            position: fixed; /* Закрепляем подвал */
+            bottom: 0; /* Внизу страницы */
+            width: 100%; /* Занимает всю ширину окна */
+            max-width: var(--mobile-max-width); /* Ограничиваем ширину содержимого подвала */
+            left: 50%; /* Начинаем по центру */
+            transform: translateX(-50%); /* Смещаем влево на половину своей ширины */
+            background-color: #2c2c2c;
+            color: #fff;
+            padding: 3px 20px;
+            text-align: center;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-icon {
+            color: #f7a700;
+            font-size: 1.8em;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>Senim_VKO</h1>
+            <p>news</p>
+        </header>
+
+        <main class="main-grid">
+            <div class="card consultation">
+                <div class="card-number">01</div>
+                <h2 class="card-title">КОНСУЛЬТАЦИЯ КЛИЕНТА</h2>
+                <h3 class="card-subtitle">0 рублей</h3>
+                <p class="card-description">
+                    БЕСПЛАТНАЯ КОНСУЛЬТАЦИЯ <br><br>
+                    Не бойтесь, если до конца не знаете, что сформулировать задачу – вам не нужен идеальный референс/дизайн презентации/полиграфии<br><br>
+                    Я расскажу, как подготовить данные, дам список того, что поможет вам понять, какой конечный визуальный продукт Вы получите
+                </p>
+            </div>
+
+            <div class="card economy">
+                <div class="card-number">02</div>
+                <h2 class="card-title">ЭКОНОМИЯ СРЕДСТВ КЛИЕНТА</h2>
+                <h3 class="card-subtitle">Мое цель – эффективность, презентации/полиграфии, поэтому я не буду искусственно "раздувать" объем работы, сократив Ваши затраты. Как следствие, экономия бюджет проекта.</h3>
+                <p class="card-description">
+                    *Текст, который должен быть здесь, неразборчив на изображении. Я оставлю этот абзац пустым, но вы можете заполнить его, если у вас есть нужный текст.*
+                </p>
+            </div>
+
+            <div class="card transparency">
+                <div class="card-number">03</div>
+                <h2 class="card-title">ПРОЗРАЧНОСТЬ ОПЛАТЫ</h2>
+                <p class="card-description">
+                    Оплату работ можно провести по упрощенной схеме, без оформления счета, или при необходимости, по желанию заказчика – официально, договор на оказание полиграфических услуг с предоставлением всех актов.<br><br>
+                    По завершению моих работ, я предоставлю чеки, акты выполненных работ, и все исходные материалы проекта.
+                </p>
+            </div>
+
+            <div class="card support">
+                <div class="card-number">04</div>
+                <h2 class="card-title">СОПРОВОЖДЕНИЕ КЛИЕНТА</h2>
+                <p class="card-description">
+                    Я даю гибкие рекомендации в течение всего срока проекта – начиная от начала и до конца, конкретно на вашей стороне.<br><br>
+                    Список рекомендаций широкий – начиная от выбора типографики или использования скрытых маркетинговых приемов для внедрения до технических и эстетических характеристик оборудования для публичных выступлений.
+                </p>
+            </div>
+
+            <div class="card recommendations">
+                <div class="card-number">05</div>
+                <h2 class="card-title">РЕКОМЕНДАЦИИ ДРУГИХ ДИЗАЙНЕРОВ</h2>
+                <p class="card-description">
+                    В случае, когда я задействована на других проектах или мой уровень знаний не позволит помочь, то я не ограничиваюсь своим кругозором и посоветую проверенных коллег/друзей, студии, куда Вы сможете обратиться за помощью.
+                </p>
+            </div>
+        </main>
+
+        <footer class="page-footer">
+            <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#" class="social-icon" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </footer>
+    </div>
+</body>
+</html>
